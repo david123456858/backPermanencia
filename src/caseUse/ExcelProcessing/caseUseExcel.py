@@ -4,19 +4,20 @@ import pandas as pd
 
 class caseUseExcel:
     
-    def post_file_excel(file:UploadFile):
+   async def post_file_excel(self,file:UploadFile):
         try:
             if(file.filename.endswith('.xlsx')):
-                content_excel = pd.read_excel(file)
+                content_excel = pd.read_excel(file.file)
                 
                 print(content_excel)
                 
                 buffer = io.StringIO()
                 content_excel.to_csv(buffer,index=False)
-                buffer.seek(0)
+                buffer.seek(0) ##
                 
                 return buffer
-        except:
+        except  Exception as error:
+            print(error)
             raise Exception('Error the reading file Excel')  
 
         

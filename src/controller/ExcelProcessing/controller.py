@@ -11,9 +11,18 @@ class Controller_Excel_Processing:
         try:
             print('Estoy en el controllador')
             result = await self.caseUseExcel.post_file_excel(file)
+            
             nombre_archivo_csv = f"archivo_convertido_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
             return StreamingResponse(result, media_type="text/csv", headers={"Content-Disposition": f"attachment; filename={nombre_archivo_csv}"})
         
         except Exception as error:
             raise HTTPException(status_code=500,detail=f"internal error server {str(error)}")
-            
+    
+    async def post_excel_porcentage(self,file:UploadFile):
+        try:
+            result = await self.caseUseExcel.post_excel_porcentage(file)
+            return result
+        except Exception as error:
+            print(error)
+            raise HTTPException(status_code=500,detail=f"internal error server {str(error)}")        
+        

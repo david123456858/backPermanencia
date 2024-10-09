@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from src.router.routerExcel.router import create_route_everything_excel
+from src.caseUse.ExcelProcessing.caseUseExcel import caseUseExcel
+from src.controller.ExcelProcessing.controller import Controller_Excel_Processing
+
 
 app = FastAPI()
 
@@ -16,7 +20,10 @@ app.add_middleware(
 def readRoot():
     return{"data":"YA ESTA"}
 
-app.include_router(create_route_everything_excel())
+caseUseExcelInstance = caseUseExcel()
+controllerExcel = Controller_Excel_Processing(caseUseExcelInstance)
+
+app.include_router(create_route_everything_excel(controllerExcel))
 
 if __name__ == "__main__":
     import uvicorn

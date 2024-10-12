@@ -8,7 +8,7 @@ class caseUseExcel:
    async def post_file_excel(self,file:UploadFile):
         try:
             if(file.filename.endswith('.xlsx')):
-                content_excel = pd.read_excel(file.file)
+                content_excel = pd.read_excel(file.file,sheet_name="BD")
                 print(content_excel)
                 
                 if 'NOMBRE Y APELLIDO' in content_excel.columns:

@@ -40,13 +40,13 @@ class caseUseJson:
         try:
             if not file.filename.endswith('.xlsx'):
                 raise HTTPException(status_code=400, detail="El archivo no tiene formato Excel (.xlsx)")
-            content_excel = pd.read_excel(file.file)
+            content_excel = pd.read_excel(file.file,sheet_name="BD")
 
             if content_excel.empty:
                 raise HTTPException(status_code=400, detail="El archivo Excel está vacío")
 
             nombres_apellidos = content_excel['NOMBRE Y APELLIDO'].apply(self.separar_nombres_apellidos)
-            content_excel[['Nombre 1', 'Nombre 2', 'Apellido 1', 'Apellido 2']] = pd.DataFrame(nombres_apellidos.tolist(), index=content_excel.index)
+            content_excel[['NOMBRE1', 'NOMBRE2', 'APELLIDO1', 'APELLIDO2']] = pd.DataFrame(nombres_apellidos.tolist(), index=content_excel.index)
 
 
             content_excel.drop(columns=['NOMBRE Y APELLIDO'], inplace=True)

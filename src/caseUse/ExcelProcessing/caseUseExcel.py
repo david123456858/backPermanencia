@@ -9,21 +9,33 @@ class caseUseExcel:
         try:
             if(file.filename.endswith('.xlsx')):
                 content_excel = pd.read_excel(file.file)
-                
                 print(content_excel)
                 
+                if 'NOMBRE Y APELLIDO' in content_excel.columns:
+                    nombres_apellidos = content_excel['NOMBRE Y APELLIDO'].str.split(' ', n=3, expand=True)
+                    content_excel['Nombre 1'] = nombres_apellidos[0] 
+                    content_excel['Nombre 2'] = nombres_apellidos[1]  
+                    content_excel['Apellido 1'] = nombres_apellidos[2]  
+                    content_excel['Apellido 2'] = nombres_apellidos[3]  
+                    
+                    content_excel['Nombre 2'] = content_excel['Nombre 2'].fillna('')
+                    content_excel['Apellido 2'] = content_excel['Apellido 2'].fillna('')
+                    
+  
+                    content_excel.drop(columns=['NOMBRE Y APELLIDO'], inplace=True)
+
                 buffer = io.StringIO()
                 content_excel.to_csv(buffer,index=False)
-                buffer.seek(0) ##
-                
+                buffer.seek(0)  
+
                 return buffer
-        except :
-            raise Exception('Error the reading file Excel')
-        
-   async def post_excel_porcentage(self,file:UploadFile):
+        except Exception as e:
+            print(e)
+            raise Exception('Error the read in the file excel')     
+
+   async def post_excel_porcentage(self, file: UploadFile):
        try:
-           if(file.filename.endswith('.xlsx')):
-               
+           if file.filename.endswith('.xlsx'):
                content = pd.read_excel(file.file)
                print(content)
                for columna in content.columns:
@@ -43,4 +55,4 @@ class caseUseExcel:
            return porcentage           
        except Exception as error:
            print(error)
-           raise Exception('Error the read in the file excel')     
+           raise Exception('Error the read in the file excel')

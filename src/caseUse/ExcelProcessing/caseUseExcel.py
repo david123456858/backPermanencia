@@ -13,13 +13,13 @@ class caseUseExcel:
                 
                 if 'NOMBRE Y APELLIDO' in content_excel.columns:
                     nombres_apellidos = content_excel['NOMBRE Y APELLIDO'].str.split(' ', n=3, expand=True)
-                    content_excel['Nombre 1'] = nombres_apellidos[0] 
-                    content_excel['Nombre 2'] = nombres_apellidos[1]  
-                    content_excel['Apellido 1'] = nombres_apellidos[2]  
-                    content_excel['Apellido 2'] = nombres_apellidos[3]  
+                    content_excel['NOMBRE1'] = nombres_apellidos[0] 
+                    content_excel['NOMBRE2'] = nombres_apellidos[1]  
+                    content_excel['APELLIDO1'] = nombres_apellidos[2]  
+                    content_excel['APELLIDO2'] = nombres_apellidos[3]  
                     
-                    content_excel['Nombre 2'] = content_excel['Nombre 2'].fillna('')
-                    content_excel['Apellido 2'] = content_excel['Apellido 2'].fillna('')
+                    content_excel['NOMBRE2'] = content_excel['NOMBRE2'].fillna('')
+                    content_excel['APELLIDO2'] = content_excel['APELLIDO2'].fillna('')
                     
   
                     content_excel.drop(columns=['NOMBRE Y APELLIDO'], inplace=True)
@@ -33,26 +33,3 @@ class caseUseExcel:
             print(e)
             raise Exception('Error the read in the file excel')     
 
-   async def post_excel_porcentage(self, file: UploadFile):
-       try:
-           if file.filename.endswith('.xlsx'):
-               content = pd.read_excel(file.file)
-               print(content)
-               for columna in content.columns:
-                    content[columna] = pd.to_numeric(content[columna], errors='coerce')
-               
-               porcentage ={}
-               
-               for columns in content.columns:
-                   total = content[columns].sum()
-                   if(total > 0):
-                       porcentage[columns] = (content[columns] / total * 100).tolist()
-                   else:
-                       porcentage[columns] = [0] * len(content[columns]) 
-                         
-               for key in porcentage:
-                    porcentage[key] = [0 if np.isnan(x) else x for x in porcentage[key]]       
-           return porcentage           
-       except Exception as error:
-           print(error)
-           raise Exception('Error the read in the file excel')

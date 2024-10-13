@@ -20,12 +20,5 @@ class Controller_Excel_Processing:
         
         except Exception as error:
             raise HTTPException(status_code=500,detail=f"internal error server {str(error)}")
-    
-    async def post_excel_porcentage(self,file:UploadFile):
-        try:
-            result = await self.caseUseExcel.post_excel_porcentage(file)
-            return result
-        except Exception as error:
-            print(error)
-            raise HTTPException(status_code=500,detail=f"internal error server {str(error)}")        
+          
         

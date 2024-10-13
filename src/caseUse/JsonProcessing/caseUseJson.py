@@ -1,6 +1,8 @@
 from fastapi import UploadFile, HTTPException
 import pandas as pd
 
+from src.model.JsonModel import columns
+
 class caseUseJson:
 
     def separar_nombres_apellidos(self, nombre_completo):
@@ -56,7 +58,8 @@ class caseUseJson:
 
             content_excel.fillna("", inplace=True)
 
-            json_result = content_excel.to_dict(orient="records")
+            json_result = content_excel[columns]
+            json_result = json_result.to_dict(orient="records")
             return json_result
         
         except Exception as error:

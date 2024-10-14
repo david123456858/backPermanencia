@@ -24,7 +24,7 @@ app.add_middleware(
 
 @app.get("/")
 def readRoot():
-    return{"data":"YA ESTA"}
+    return{"data":"Back Permanencia funcionando"}
 
 # Excel
 caseUseExcelInstance = caseUseExcel()

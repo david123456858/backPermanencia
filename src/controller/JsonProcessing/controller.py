@@ -9,7 +9,6 @@ class Controller_Json_Processing:
 
     async def post_file_json(self, file: UploadFile):
         try:
-            print('Estoy en el controlador de JSON')
             result_json = await self.caseUseJson.post_file_json(file)
             
             nombre_archivo_json = f"archivo_convertido_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"

@@ -57,6 +57,10 @@ class caseUseJson:
                 content_excel[column] = content_excel[column].astype(str)
 
             content_excel.fillna("", inplace=True)
+            if "COIN_NUMCONVOCATORIA" in content_excel.columns:
+                content_excel["COIN_NUMCONVOCATORIA"] = content_excel["COIN_NUMCONVOCATORIA"].apply(
+                    lambda x: f"{str(x)[:4]}-{str(x)[-1]}"
+            )
 
             json_result = content_excel[columns]
             json_result = json_result.to_dict(orient="records")
